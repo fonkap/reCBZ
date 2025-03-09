@@ -21,6 +21,7 @@ keywords = ["manga", "comics", "cbz", "ebook", "epub"]
 dependencies = [
     "pillow >= 9.1",
     "ebooklib >= 0.18",
+    "rarfile == 4.2",
     'tomli; python_version < "3.11"',
 ]
 requires-python = ">=3.9"

@@ -4,6 +4,7 @@ import re
 import time
 import shutil
 import tempfile
+import rarfile
 from zipfile import ZipFile, ZIP_DEFLATED, ZIP_STORED, BadZipFile
 from functools import partial
 from pathlib import Path
@@ -281,7 +282,10 @@ class ComicArchive():
         try:
             source_zip = ZipFile(self.fp)
         except BadZipFile as err:
-            raise ValueError(f"Fatal: '{self.fp}': not a zip file")
+            try:
+                source_zip = rarfile.RarFile(self.fp)
+            except rarfile.NotRarFile as err:
+                raise ValueError(f"Fatal: '{self.fp}': not a zip or rar file")
 
         compressed_files = source_zip.namelist()
         assert len(compressed_files) >= 1, 'no files in archive'
